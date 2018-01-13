@@ -1,9 +1,5 @@
 package nuke.discord.util
 
-/**
- * Created by NuclearCoder on 2017-09-06.
- */
-
 data class Wrapper<T>(var o: T) {
 
     fun set(o: T) {

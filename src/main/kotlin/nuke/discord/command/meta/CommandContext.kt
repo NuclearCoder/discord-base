@@ -1,7 +1,5 @@
 package nuke.discord.command.meta
 
-import club.minnced.kjda.entities.send
-import club.minnced.kjda.plusAssign
 import net.dv8tion.jda.core.MessageBuilder
 import net.dv8tion.jda.core.entities.Message
 import net.dv8tion.jda.core.entities.User
@@ -17,7 +15,7 @@ class CommandContext(val event: MessageReceivedEvent,
                      val tokenizer: MessageTokenizer) {
 
     inline fun reply(emote: String = REPLY_SUCCESS, crossinline then: MessageBuilder.() -> Unit) {
-        event.channel.send {
+        event.channel.sendAsync {
             replyPrefix(event.member, emote)
             then()
         }

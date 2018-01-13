@@ -18,7 +18,7 @@ fun TextChannel.sendImageFromURL(content: String, url: String,
                                  filename: String) {
     try {
         getInputStreamFromUrl(url).use {
-            this.sendFile(it, filename, MessageBuilder().append(content).build()).queue()
+            sendFile(it, filename, MessageBuilder().append(content).build()).queue()
         }
     } catch (e: IOException) {
         LOGGER.error("Could not send file:", e)
