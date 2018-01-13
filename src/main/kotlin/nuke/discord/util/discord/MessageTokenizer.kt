@@ -67,7 +67,7 @@ class MessageTokenizer(val text: String) {
     /**
      * Returns the next word, that is, the text from the cursor to the next whitespace (exclusive).
      * The returned string is empty if there was no non-empty word past the cursor.
-     * The cursor skips all whitespaces preceeding the word.
+     * The cursor skips all whitespaces preceding the word.
      */
     fun nextWord(): String {
         return nextMatchingOrNull { true } ?: "" // should never be null
@@ -89,7 +89,7 @@ class MessageTokenizer(val text: String) {
 
     /**
      * Returns the next integer separated by whitespaces.
-     * The cursor skips all whitespaces preceeding the number.
+     * The cursor skips all whitespaces preceding the number.
      * The cursor is only moved further if a number was found.
      */
     fun nextInt(): Int? {
@@ -102,7 +102,7 @@ class MessageTokenizer(val text: String) {
 
     /**
      * Returns the next long integer separated by whitespaces.
-     * The cursor skips all whitespaces preceeding the number.
+     * The cursor skips all whitespaces preceding the number.
      * The cursor is only moved further if a number was found.
      */
     fun nextLong(): Long? {
@@ -115,7 +115,7 @@ class MessageTokenizer(val text: String) {
 
     /**
      * Returns the next user mention or null if there is no match.
-     * The cursor skips all whitespaces preceeding the mention.
+     * The cursor skips all whitespaces preceding the mention.
      * The cursor is only moved further if a user mention was found.
      */
     fun nextUserMention(): Long? {
@@ -143,7 +143,7 @@ class MessageTokenizer(val text: String) {
 
     /**
      * Returns the next role mention or null if there is no match.
-     * The cursor skips all whitespaces preceeding the mention.
+     * The cursor skips all whitespaces preceding the mention.
      * The cursor is only moved further if a role mention was found.
      */
     fun nextRoleMention(): Long? {
@@ -170,7 +170,7 @@ class MessageTokenizer(val text: String) {
 
     /**
      * Returns the next channel mention or null if there is no match.
-     * The cursor skips all whitespaces preceeding the mention.
+     * The cursor skips all whitespaces preceding the mention.
      * The cursor is only moved further if a channel mention was found.
      */
     fun nextChannelMention(): Long? {

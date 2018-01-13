@@ -8,6 +8,4 @@ import java.util.concurrent.TimeUnit
 val LOGGER: Logger = LoggerFactory.getLogger(NukeBot::class.java)
 
 val URL_GET_TIMEOUT = TimeUnit.SECONDS.toMillis(3).toInt()
-val SHUTDOWN_WAIT = TimeUnit.SECONDS.toMillis(3)
-
-val CONFIG_AUTOSAVE_PERIOD = TimeUnit.MINUTES.toMillis(15)
+val CONFIG_AUTO_SAVE_PERIOD = TimeUnit.MINUTES.toMillis(15)

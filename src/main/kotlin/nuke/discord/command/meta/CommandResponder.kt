@@ -9,8 +9,8 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent
 import net.dv8tion.jda.core.hooks.SubscribeEvent
 import nuke.discord.util.discord.ReactionMenu
 
-val REPLY_SUCCESS = ":white_check_mark:"
-val REPLY_FAILURE = ":negative_squared_cross_mark:"
+const val REPLY_SUCCESS = ":white_check_mark:"
+const val REPLY_FAILURE = ":negative_squared_cross_mark:"
 
 /**
  * Appends the prefix for a reply.

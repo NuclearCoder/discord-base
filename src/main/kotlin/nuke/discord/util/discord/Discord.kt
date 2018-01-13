@@ -8,13 +8,13 @@ import net.dv8tion.jda.core.entities.TextChannel
 import nuke.discord.LOGGER
 import nuke.discord.URL_GET_TIMEOUT
 import nuke.discord.command.meta.CommandContext
-import nuke.discord.command.meta.command.PermissionLevel
+import nuke.discord.command.meta.command.PermLevel
 import nuke.discord.util.use
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL
 
-fun TextChannel.sendImagefromURL(content: String, url: String,
+fun TextChannel.sendImageFromURL(content: String, url: String,
                                  filename: String) {
     try {
         getInputStreamFromUrl(url).use {
@@ -43,17 +43,17 @@ fun Member.hasRoleForGuild(roleID: Long): Boolean {
     return this.roles.any { it.idLong == roleID }
 }
 
-fun Member.getPermissionLevel(context: CommandContext): PermissionLevel {
+fun Member.getPermissionLevel(context: CommandContext): nuke.discord.command.meta.command.PermLevel {
     return when {
-        user.id == context.botOwner.id -> PermissionLevel.BotOwner
-        isOwner -> PermissionLevel.ServerOwner
-        hasPermission(Permission.KICK_MEMBERS) || hasPermission(Permission.BAN_MEMBERS) -> PermissionLevel.Moderator
-        context.event.channelType == ChannelType.PRIVATE -> PermissionLevel.Private
-        else -> PermissionLevel.User
+        user.id == context.botOwner.id -> PermLevel.BOT_OWNER
+        isOwner -> PermLevel.SERVER_OWNER
+        hasPermission(Permission.KICK_MEMBERS) || hasPermission(Permission.BAN_MEMBERS) -> PermLevel.MODERATOR
+        context.event.channelType == ChannelType.PRIVATE -> PermLevel.PRIVATE
+        else -> PermLevel.USER
     }
 }
 
-fun Member.hasSufficientPermissions(context: CommandContext, desired: PermissionLevel): Boolean {
+fun Member.hasSufficientPermissions(context: CommandContext, desired: nuke.discord.command.meta.command.PermLevel): Boolean {
     return getPermissionLevel(context) >= desired
 }
 

@@ -2,7 +2,7 @@ group 'nuclearcoder'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.2.10-1'
+    ext.kotlin_version = '1.2.10'
 
     repositories {
         mavenCentral()
@@ -33,7 +33,7 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     // The production code uses the SLF4J logging API at compile time
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'

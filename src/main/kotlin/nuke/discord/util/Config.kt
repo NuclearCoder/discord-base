@@ -1,6 +1,6 @@
 package nuke.discord.util
 
-import nuke.discord.CONFIG_AUTOSAVE_PERIOD
+import nuke.discord.CONFIG_AUTO_SAVE_PERIOD
 import nuke.discord.LOGGER
 import java.io.File
 import java.io.FileReader
@@ -9,7 +9,7 @@ import java.io.IOException
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
-class Config(filename: String) {
+class Config(val filename: String) {
 
     private val file = File(filename)
     private val properties = Properties()
@@ -32,7 +32,7 @@ class Config(filename: String) {
         // then load first time
         load()
 
-        // finally, start autosaving
+        // finally, start auto-saving
         object : TimerTask() {
             override fun run() {
                 if (hasChanged.compareAndSet(true, false)) {
@@ -40,8 +40,8 @@ class Config(filename: String) {
                 }
             }
         }.also {
-            Timer("config-autosave", true)
-                    .schedule(it, CONFIG_AUTOSAVE_PERIOD, CONFIG_AUTOSAVE_PERIOD)
+            Timer("config-auto-save", true)
+                    .schedule(it, CONFIG_AUTO_SAVE_PERIOD, CONFIG_AUTO_SAVE_PERIOD)
         }
     }
 
@@ -64,12 +64,9 @@ class Config(filename: String) {
     }
 
     operator fun get(key: String): String {
-        val value = properties.getProperty(key)
-        if (value != null) return value
-        else {
+        return properties.getProperty(key) ?: "".also {
             LOGGER.warn("Key '$key' did not exist, creating empty entry.")
-            properties[key] = ""
-            return ""
+            properties[key] = it
         }
     }
 

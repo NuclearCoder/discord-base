@@ -52,8 +52,8 @@ fun parseTime(string: String): Int {
 
 inline fun <T : AutoCloseable?, R> T.use(block: (T) -> R): R {
     var closed = false
-    try {
-        return block(this)
+    return try {
+        block(this)
     } catch (e: Exception) {
         closed = true
         try {

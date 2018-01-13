@@ -7,8 +7,9 @@ import net.dv8tion.jda.core.entities.MessageReaction
 import net.dv8tion.jda.core.events.message.react.GenericMessageReactionEvent
 import net.dv8tion.jda.core.hooks.SubscribeEvent
 
-class ReactionMenu(val message: Message, val choices: Map<String, RMCallback>,
-                   val target: Member?) {
+class ReactionMenu(private val message: Message,
+                   private val choices: Map<String, RMCallback>,
+                   private val target: Member?) {
 
     class Builder(private val message: Message, target: Member? = null) {
 
@@ -41,7 +42,7 @@ class ReactionMenu(val message: Message, val choices: Map<String, RMCallback>,
 
     fun fireChoiceEvent(member: Member, reaction: MessageReaction) {
         if (reaction.messageIdLong == message.idLong && !reaction.isSelf && (target == null || target == member)) {
-            choices.getOrElse("u${reaction.emote.name}") { return }(member)
+            choices.getOrElse("u${reaction.reactionEmote.name}") { return }(member)
         }
     }
 

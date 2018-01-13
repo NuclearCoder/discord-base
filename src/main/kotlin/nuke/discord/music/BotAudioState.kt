@@ -24,7 +24,7 @@ class BotAudioState {
 
             override fun trackLoaded(track: AudioTrack) {
                 manager.scheduler.queue(track)
-                context.reply("roleplay music started!")
+                context.reply("music started!")
             }
 
             override fun playlistLoaded(playlist: AudioPlaylist) {
@@ -38,7 +38,7 @@ class BotAudioState {
             }
 
             override fun loadFailed(exception: FriendlyException) {
-                context.replyFail("an error occurred loading the roleplay music!")
+                context.replyFail("an error occurred loading the music.")
             }
         })
     }

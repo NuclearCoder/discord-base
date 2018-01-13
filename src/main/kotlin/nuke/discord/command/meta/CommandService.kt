@@ -9,8 +9,12 @@ import nuke.discord.command.meta.registry.RegisteredCommand
 import nuke.discord.util.discord.MessageTokenizer
 import nuke.discord.util.discord.hasSufficientPermissions
 
+typealias CommandBuilder = (CommandRegistry.RegistryBuilder) -> Unit
+typealias MessageHandler = (MessageReceivedEvent) -> Unit
+
 class CommandService(private val bot: NukeBot,
-                     commandBuilder: (CommandRegistry.RegistryBuilder) -> Unit) {
+                     commandBuilder: CommandBuilder,
+                     private val messageHandlers: List<MessageHandler>) {
 
     companion object {
         const val prefix = "--"
@@ -44,14 +48,14 @@ class CommandService(private val bot: NukeBot,
     fun onMessage(event: MessageReceivedEvent) {
         if (event.author.isBot) return
 
-        val tokenizer = MessageTokenizer(event.message.rawContent)
+        val tokenizer = MessageTokenizer(event.message.contentRaw)
         if (tokenizer.hasMore) {
             if (tokenizer.skip(prefix)) { // is a command
                 tokenizer.nextWord().takeIf(String::isNotEmpty)?.let { name ->
                     processCommand(event, tokenizer, name, registry)
                 }
             } else { // is a message
-                //MessageHandler.processMessage(event)
+                messageHandlers.forEach { it.invoke(event) }
             }
         }
     }
