@@ -3,6 +3,7 @@ package nuke.discord.bot
 import net.dv8tion.jda.core.events.ReadyEvent
 import net.dv8tion.jda.core.hooks.SubscribeEvent
 import nuke.discord.LOGGER
+import nuke.discord.command.meta.ResponseObject
 import nuke.discord.music.BotAudioState
 import nuke.discord.util.Config
 
@@ -30,6 +31,7 @@ class NukeBotNormal(config: Config,
 
     override fun terminate() {
         LOGGER.info("Shutting down...")
+        ResponseObject.scheduler.shutdownNow()
         client.shutdown()
 
         config.save()

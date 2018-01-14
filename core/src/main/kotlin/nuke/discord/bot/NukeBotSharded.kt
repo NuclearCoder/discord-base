@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.events.ReadyEvent
 import net.dv8tion.jda.core.hooks.SubscribeEvent
 import nuke.discord.LOGGER
 import nuke.discord.command.meta.CommandService
+import nuke.discord.command.meta.ResponseObject
 import nuke.discord.music.BotAudioState
 import nuke.discord.util.Config
 
@@ -32,6 +33,8 @@ class NukeBotSharded(override val config: Config,
     override val audio = BotAudioState()
 
     override fun terminate() {
+        ResponseObject.scheduler.shutdownNow()
+
         shards.forEach {
             LOGGER.info("Shutting down shard #${it.shardNo}...")
             it.client.shutdown()
