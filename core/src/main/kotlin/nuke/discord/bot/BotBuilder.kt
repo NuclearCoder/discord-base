@@ -1,7 +1,6 @@
 package nuke.discord.bot
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent
-import net.dv8tion.jda.core.hooks.EventListener
 import net.dv8tion.jda.core.requests.Requester
 import nuke.discord.command.meta.registry.CommandRegistry
 import nuke.discord.util.Config
@@ -49,9 +48,9 @@ class BotBuilder {
         messageHandlers += handler
     }
 
-    private val listeners = mutableListOf<EventListener>()
+    private val listeners = mutableListOf<Any>()
 
-    fun eventListener(listener: EventListener) {
+    fun eventListener(listener: Any) {
         listeners += listener
     }
 

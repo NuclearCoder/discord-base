@@ -1,7 +1,8 @@
 package nuke.discord.bot
 
 import net.dv8tion.jda.core.JDA
-import net.dv8tion.jda.core.hooks.EventListener
+import net.dv8tion.jda.core.events.ReadyEvent
+import net.dv8tion.jda.core.hooks.SubscribeEvent
 import nuke.discord.LOGGER
 import nuke.discord.command.meta.CommandService
 import nuke.discord.music.BotAudioState
@@ -11,8 +12,12 @@ class NukeBotSharded(override val config: Config,
                      private val commandPrefix: String,
                      commandBuilder: CommandBuilder,
                      messageHandlers: List<MessageHandler>,
-                     listeners: List<EventListener>,
+                     listeners: List<Any>,
                      private val shardCount: Int) : NukeBot {
+
+    init {
+        LOGGER.info("Starting sharded bot ($shardCount shards)...")
+    }
 
     private val shards = Array(this.shardCount) {
         NukeBotShard(it, commandBuilder, messageHandlers, listeners)
@@ -38,10 +43,19 @@ class NukeBotSharded(override val config: Config,
     inner class NukeBotShard(internal val shardNo: Int,
                              commandBuilder: CommandBuilder,
                              messageHandlers: List<MessageHandler>,
-                             listeners: List<EventListener>)
+                             listeners: List<Any>)
         : NukeBotBase(config, commandPrefix, commandBuilder, messageHandlers, listeners) {
 
-        override val client = buildClient { useSharding(shardNo, shardCount) }
+        override val client = buildClient {
+            useSharding(shardNo, shardCount)
+            addEventListener(object {
+                @SubscribeEvent
+                fun onReady(event: ReadyEvent) {
+                    LOGGER.info("Started shard #$shardNo!")
+                }
+            })
+        }
+
         override val audio = this@NukeBotSharded.audio
 
         override fun terminate() {

@@ -1,6 +1,5 @@
 package nuke.discord.command.meta
 
-import club.minnced.kjda.plusAssign
 import net.dv8tion.jda.core.MessageBuilder
 import net.dv8tion.jda.core.entities.Member
 import net.dv8tion.jda.core.entities.Message
@@ -17,10 +16,10 @@ const val REPLY_FAILURE = ":negative_squared_cross_mark:"
  * "emote | **name**, "
  */
 fun MessageBuilder.replyPrefix(member: Member, emote: String) {
-    this += emote
-    this += " | **"
-    this += member.effectiveName
-    this += "**, "
+    append(emote)
+    append(" | **")
+    append(member.effectiveName)
+    append("**, ")
 }
 
 /**

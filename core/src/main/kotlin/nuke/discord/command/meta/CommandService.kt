@@ -1,7 +1,7 @@
 package nuke.discord.command.meta
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent
-import net.dv8tion.jda.core.hooks.ListenerAdapter
+import net.dv8tion.jda.core.hooks.SubscribeEvent
 import nuke.discord.bot.CommandBuilder
 import nuke.discord.bot.MessageHandler
 import nuke.discord.bot.NukeBot
@@ -14,7 +14,7 @@ import nuke.discord.util.discord.hasSufficientPermissions
 class CommandService(private val bot: NukeBot,
                      private val prefix: String,
                      commandBuilder: CommandBuilder,
-                     private val messageHandlers: List<MessageHandler>) : ListenerAdapter() {
+                     private val messageHandlers: List<MessageHandler>) {
 
     private val owner by lazy {
         bot.client.asBot().applicationInfo.complete().owner
@@ -40,8 +40,8 @@ class CommandService(private val bot: NukeBot,
         }
     }
 
-    //@SubscribeEvent
-    override fun onMessageReceived(event: MessageReceivedEvent) {
+    @SubscribeEvent
+    fun onMessageReceived(event: MessageReceivedEvent) {
         if (event.author.isBot) return
 
         val tokenizer = MessageTokenizer(event.message.contentRaw)

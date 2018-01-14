@@ -1,5 +1,6 @@
 package nuke.discord.command.meta
 
+import com.thatsnomoon.kda.extensions.sendAsync
 import net.dv8tion.jda.core.MessageBuilder
 import net.dv8tion.jda.core.entities.Message
 import net.dv8tion.jda.core.entities.User
@@ -21,14 +22,14 @@ class CommandContext(val event: MessageReceivedEvent,
         }
     }
 
-    fun reply(emote: String, content: String) = reply(emote) { this += content }
+    fun reply(emote: String, content: String) = reply(emote) { append(content) }
 
     fun reply(content: String) = reply(REPLY_SUCCESS, content)
     fun replyFail(content: String) = reply(REPLY_FAILURE, content)
 
     fun replyMissingArguments(details: String) = reply(REPLY_FAILURE) {
-        this += "missing arguments: "
-        this += details
+        append("missing arguments: ")
+        append(details)
     }
 
 }
