@@ -16,8 +16,7 @@ fun main(args: Array<String>) {
         
         shardedWith(2)
         
-        commandPrefix = "~"
-        commands {
+        commands(prefix = "~") {
             it["exit"] = ExitCommand
             it("root") {
                 it["first"] = Command {
