@@ -30,15 +30,13 @@ class BotBuilder {
         shardCount = count
     }
 
-    var commandPrefix = "!"
-        set(value) {
-            if (value.contains("\\w".toRegex())) throw IllegalArgumentException("The command prefix cannot contain any whitespace")
-            field = value
-        }
-
+    private var commandPrefix = "!"
     private var commandBuilder: CommandBuilder = {}
 
-    fun commands(builder: CommandBuilder) {
+    fun commands(prefix: String = "!", builder: CommandBuilder) {
+        if (prefix.contains("\\w".toRegex()))
+            throw IllegalArgumentException("The command prefix cannot contain any whitespace")
+        commandPrefix = prefix
         commandBuilder = builder
     }
 
