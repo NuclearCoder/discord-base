@@ -29,8 +29,8 @@ class BotAudioState {
 
             override fun playlistLoaded(playlist: AudioPlaylist) {
                 // DO NOT USE PLAYLISTS PLEASE
-                val tracks = playlist.tracks
-                var firstTrack = playlist.selectedTrack ?: tracks[0]
+                //val tracks = playlist.tracks
+                //var firstTrack = playlist.selectedTrack ?: tracks[0]
             }
 
             override fun noMatches() {

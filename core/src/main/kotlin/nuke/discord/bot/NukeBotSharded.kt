@@ -9,6 +9,7 @@ import nuke.discord.command.meta.ResponseObject
 import nuke.discord.music.BotAudioState
 import nuke.discord.util.Config
 
+@Suppress("UNUSED_PARAMETER")
 class NukeBotSharded(override val config: Config,
                      private val commandPrefix: String,
                      commandBuilder: CommandBuilder,

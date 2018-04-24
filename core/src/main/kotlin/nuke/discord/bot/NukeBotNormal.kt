@@ -7,6 +7,7 @@ import nuke.discord.command.meta.ResponseObject
 import nuke.discord.music.BotAudioState
 import nuke.discord.util.Config
 
+@Suppress("UNUSED_PARAMETER")
 class NukeBotNormal(config: Config,
                     commandPrefix: String,
                     commandBuilder: CommandBuilder,
