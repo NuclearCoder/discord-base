@@ -39,7 +39,7 @@ class BotBuilder {
     fun commands(prefix: String = "!",
                  selector: CommandSelector = ExactSelector,
                  builder: CommandBuilder) {
-        if (prefix.contains("\\w".toRegex()))
+        if (prefix.contains("\\s".toRegex()))
             throw IllegalArgumentException("The command prefix cannot contain any whitespace")
         commandPrefix = prefix
         commandSelector = selector
