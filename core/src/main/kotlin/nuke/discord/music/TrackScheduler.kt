@@ -49,7 +49,7 @@ class TrackScheduler(internal val player: AudioPlayer) : AudioEventAdapter() {
     }
 
     fun shuffle() {
-        Collections.shuffle(queue as List<*>)
+        (queue as MutableList<*>).shuffle()
     }
 
 }

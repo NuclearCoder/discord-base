@@ -1,8 +1,8 @@
-group 'nuclearcoder'
-version '1.0-SNAPSHOT'
+group = 'nuclearcoder'
+version = '1.0-SNAPSHOT'
 
 repositories {
-    maven { url 'http://maven.sedmelluq.com' }
+    maven { url = 'http://maven.sedmelluq.com' }
 }
 
 dependencies {

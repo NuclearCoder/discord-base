@@ -4,16 +4,20 @@ import net.dv8tion.jda.core.events.ReadyEvent
 import net.dv8tion.jda.core.hooks.SubscribeEvent
 import nuke.discord.LOGGER
 import nuke.discord.command.meta.ResponseObject
+import nuke.discord.command.meta.selectors.CommandSelector
 import nuke.discord.music.BotAudioState
 import nuke.discord.util.Config
 
 @Suppress("UNUSED_PARAMETER")
 class NukeBotNormal(config: Config,
                     commandPrefix: String,
+                    commandSelector: CommandSelector,
                     commandBuilder: CommandBuilder,
                     messageHandlers: List<MessageHandler>,
                     listeners: List<Any>)
-    : NukeBotBase(config, commandPrefix, commandBuilder, messageHandlers, listeners) {
+    : NukeBotBase(config,
+        commandPrefix, commandSelector, commandBuilder,
+        messageHandlers, listeners) {
 
     init {
         LOGGER.info("Starting unsharded bot...")

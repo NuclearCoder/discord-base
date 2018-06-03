@@ -3,6 +3,8 @@ package nuke.discord.bot
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent
 import net.dv8tion.jda.core.requests.Requester
 import nuke.discord.command.meta.registry.CommandRegistry
+import nuke.discord.command.meta.selectors.CommandSelector
+import nuke.discord.command.meta.selectors.ExactSelector
 import nuke.discord.util.Config
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -31,12 +33,16 @@ class BotBuilder {
     }
 
     private var commandPrefix = "!"
+    private var commandSelector: CommandSelector = ExactSelector
     private var commandBuilder: CommandBuilder = {}
 
-    fun commands(prefix: String = "!", builder: CommandBuilder) {
+    fun commands(prefix: String = "!",
+                 selector: CommandSelector = ExactSelector,
+                 builder: CommandBuilder) {
         if (prefix.contains("\\w".toRegex()))
             throw IllegalArgumentException("The command prefix cannot contain any whitespace")
         commandPrefix = prefix
+        commandSelector = selector
         commandBuilder = builder
     }
 
@@ -63,14 +69,14 @@ class BotBuilder {
 
             NukeBotSharded(
                     config,
-                    commandPrefix, commandBuilder,
+                    commandPrefix, commandSelector, commandBuilder,
                     messageHandlers, listeners,
                     actualShardCount
             )
         } else {
             NukeBotNormal(
                     config,
-                    commandPrefix, commandBuilder,
+                    commandPrefix, commandSelector, commandBuilder,
                     messageHandlers, listeners
             )
         }
@@ -78,11 +84,11 @@ class BotBuilder {
 
     private fun getRecommendedShardCount(token: String) =
             Request.Builder().url(Requester.DISCORD_API_PREFIX + "gateway/bot")
-                    .header("Authorization", "Bot " + token)
+                    .header("Authorization", "Bot $token")
                     .header("User-agent", Requester.USER_AGENT)
                     .build().let { req ->
                 OkHttpClient().newCall(req).execute().use {
-                    if (!it.isSuccessful) throw IOException("Unexpected code " + it)
+                    if (!it.isSuccessful) throw IOException("Unexpected code $it")
 
                     JSONObject(it.body()!!.string()).getInt("shards")
                 }

@@ -6,12 +6,14 @@ import net.dv8tion.jda.core.hooks.SubscribeEvent
 import nuke.discord.LOGGER
 import nuke.discord.command.meta.CommandService
 import nuke.discord.command.meta.ResponseObject
+import nuke.discord.command.meta.selectors.CommandSelector
 import nuke.discord.music.BotAudioState
 import nuke.discord.util.Config
 
 @Suppress("UNUSED_PARAMETER")
 class NukeBotSharded(override val config: Config,
                      private val commandPrefix: String,
+                     commandSelector: CommandSelector,
                      commandBuilder: CommandBuilder,
                      messageHandlers: List<MessageHandler>,
                      listeners: List<Any>,
@@ -22,7 +24,7 @@ class NukeBotSharded(override val config: Config,
     }
 
     private val shards = Array(this.shardCount) {
-        NukeBotShard(it, commandBuilder, messageHandlers, listeners)
+        NukeBotShard(it, commandSelector, commandBuilder, messageHandlers, listeners)
     }
 
     override val commands: CommandService
@@ -45,10 +47,13 @@ class NukeBotSharded(override val config: Config,
     }
 
     inner class NukeBotShard(internal val shardNo: Int,
+                             commandSelector: CommandSelector,
                              commandBuilder: CommandBuilder,
                              messageHandlers: List<MessageHandler>,
                              listeners: List<Any>)
-        : NukeBotBase(config, commandPrefix, commandBuilder, messageHandlers, listeners) {
+        : NukeBotBase(config,
+            commandPrefix, commandSelector, commandBuilder,
+            messageHandlers, listeners) {
 
         override val client = buildClient {
             useSharding(shardNo, shardCount)

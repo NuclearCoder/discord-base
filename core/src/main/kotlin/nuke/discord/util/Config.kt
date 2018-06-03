@@ -9,7 +9,7 @@ import java.io.IOException
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
-class Config(val filename: String) {
+class Config(filename: String) {
 
     private val file = File(filename)
     private val properties = Properties()

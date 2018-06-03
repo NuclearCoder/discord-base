@@ -8,11 +8,13 @@ import nuke.discord.bot.NukeBot
 import nuke.discord.command.meta.command.Command
 import nuke.discord.command.meta.registry.CommandRegistry
 import nuke.discord.command.meta.registry.RegisteredCommand
+import nuke.discord.command.meta.selectors.CommandSelector
 import nuke.discord.util.discord.MessageTokenizer
 import nuke.discord.util.discord.hasSufficientPermissions
 
 class CommandService(private val bot: NukeBot,
                      private val prefix: String,
+                     commandSelector: CommandSelector,
                      commandBuilder: CommandBuilder,
                      private val messageHandlers: List<MessageHandler>) {
 
@@ -20,7 +22,7 @@ class CommandService(private val bot: NukeBot,
         bot.client.asBot().applicationInfo.complete().owner
     }
 
-    private val registry = CommandRegistry(commandBuilder)
+    private val registry = CommandRegistry(commandSelector, commandBuilder)
 
     private tailrec fun processCommand(event: MessageReceivedEvent, tokenizer: MessageTokenizer,
                                        name: String, registry: CommandRegistry) {
