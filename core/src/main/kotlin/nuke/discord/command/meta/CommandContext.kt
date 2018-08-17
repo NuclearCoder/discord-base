@@ -1,6 +1,6 @@
 package nuke.discord.command.meta
 
-import com.thatsnomoon.kda.extensions.sendAsync
+import com.thatsnomoon.kda.extensions.send
 import net.dv8tion.jda.core.JDA
 import net.dv8tion.jda.core.MessageBuilder
 import net.dv8tion.jda.core.entities.*
@@ -16,7 +16,7 @@ class CommandContext(val event: MessageReceivedEvent,
                      val tokenizer: MessageTokenizer) {
 
     inline fun reply(emote: String = REPLY_SUCCESS, crossinline then: MessageBuilder.() -> Unit) {
-        event.channel.sendAsync {
+        event.channel.send {
             replyPrefix(event.member, emote)
             then()
         }
