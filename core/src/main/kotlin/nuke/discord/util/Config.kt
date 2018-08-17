@@ -64,9 +64,13 @@ class Config(filename: String) {
     }
 
     operator fun get(key: String): String {
-        return properties.getProperty(key) ?: "".also {
-            LOGGER.warn("Key '$key' did not exist, creating empty entry.")
-            properties[key] = it
+        return properties.getProperty(key)
+                ?: System.getProperty(key, "").also { prop ->
+            if (prop == "")
+                LOGGER.warn("Key '$key' did not exist, creating empty entry.")
+            else
+                LOGGER.warn("Key '$key' did not exist, using environment variable.")
+            properties[key] = prop
         }
     }
 
