@@ -64,13 +64,21 @@ class Config(filename: String) {
     }
 
     operator fun get(key: String): String {
-        return properties.getProperty(key)
-                ?: System.getProperty(key, "").also { prop ->
-            if (prop == "")
+        return if (properties.containsKey(key)) {
+            properties.getProperty(key)
+        } else {
+            val envKey = key.toUpperCase(Locale.US)
+            val envValue = System.getenv(envKey)
+
+            if (envValue != null) {
+                LOGGER.warn("Key '$key' did not exist, using environment variable '$envKey'.")
+                envValue
+            } else {
                 LOGGER.warn("Key '$key' did not exist, creating empty entry.")
-            else
-                LOGGER.warn("Key '$key' did not exist, using environment variable.")
-            properties[key] = prop
+                ""
+            }.also {
+                properties[key] = it
+            }
         }
     }
 
