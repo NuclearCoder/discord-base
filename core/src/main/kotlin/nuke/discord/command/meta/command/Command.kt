@@ -3,12 +3,20 @@ package nuke.discord.command.meta.command
 import nuke.discord.command.meta.CommandContext
 import nuke.discord.util.discord.hasSufficientPermissions
 
-abstract class Command(val requiredPermission: PermLevel = PermLevel.USER) {
+abstract class Command(
+        val description: String = defaultDescription,
+        val requiredPermission: PermLevel = defaultPermission
+) {
 
     companion object {
-        inline operator fun invoke(perm: PermLevel = PermLevel.USER,
+
+        const val defaultDescription = "No description."
+        val defaultPermission = PermLevel.USER
+
+        inline operator fun invoke(description: String = defaultDescription,
+                                   requiredPermission: PermLevel = defaultPermission,
                                    crossinline block: Command.(CommandContext) -> Unit)
-                = object : Command(perm) {
+                = object : Command(description, requiredPermission) {
                     override fun onInvoke(context: CommandContext) = block(context)
                 }
     }
