@@ -30,6 +30,6 @@ abstract class NukeBotBase(override val config: Config,
         addEventListener(listeners)
 
         preInit()
-    }.buildAsync()
+    }.build()
 
 }

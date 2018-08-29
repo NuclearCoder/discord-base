@@ -9,12 +9,9 @@ import nuke.discord.command.meta.selectors.ExactSelector
 
 class CommandRegistry internal constructor(builder: RegistryBuilder) {
 
-    val fallback = builder.fallback ?: FallbackCommand()
+    val fallback = builder.fallback ?: FallbackCommand(builder.commands)
     val commands = builder.commands.apply {
         add(RegisteredCommand.Final("", fallback))
-        if (builder.registerHelp) {
-            add(RegisteredCommand.Final("help", HelpCommand()))
-        }
     }
 
     constructor(selector: CommandSelector, builder: CommandBuilder)
@@ -25,7 +22,6 @@ class CommandRegistry internal constructor(builder: RegistryBuilder) {
     class RegistryBuilder internal constructor(
             internal val commands: CommandSelector) {
         internal var fallback: Command? = null
-        var registerHelp = true
 
         // set fallback command
         fun fallback(command: Command?) {
@@ -45,6 +41,11 @@ class CommandRegistry internal constructor(builder: RegistryBuilder) {
             })
         }
 
+        // register help command
+        fun registerHelp(name: String) {
+            register(name, HelpCommand(commands))
+        }
+
         operator fun set(name: String, command: Command) = register(name, command)
 
         operator fun invoke(name: String, selector: CommandSelector = ExactSelector,
@@ -53,7 +54,7 @@ class CommandRegistry internal constructor(builder: RegistryBuilder) {
 
     }
 
-    inner class FallbackCommand : Command() {
+    class FallbackCommand(private val commands: CommandSelector) : Command() {
         override fun onInvoke(context: CommandContext) {
             val list = commands.toMap()
                     .filter { (name, reg) ->
@@ -71,17 +72,20 @@ class CommandRegistry internal constructor(builder: RegistryBuilder) {
         }
     }
 
-    inner class HelpCommand : Command(description = "Prints this help.") {
+    class HelpCommand(private val commands: CommandSelector) : Command(description = "Prints this help.") {
         override fun onInvoke(context: CommandContext) {
-            buildEmbed {
-                setAuthor("Help", null, context.jda.selfUser.effectiveAvatarUrl)
+            context.reply {
+                setContent("")
+                buildEmbed {
+                    setAuthor("Help", null, context.jda.selfUser.effectiveAvatarUrl)
 
-                commands.toMap().filterKeys(String::isNotEmpty).forEach { (name, reg) ->
-                    when (reg) {
-                        is RegisteredCommand.Final -> addField(name, reg.command.description, false)
-                        is RegisteredCommand.Branch -> addField(name, reg.description, false)
+                    commands.toMap().toSortedMap().filterKeys(String::isNotEmpty).forEach { (name, reg) ->
+                        when (reg) {
+                            is RegisteredCommand.Final -> addField(name, reg.command.description, false)
+                            is RegisteredCommand.Branch -> addField(name, reg.description, false)
+                        }
                     }
-                }
+                }.let(::setEmbed)
             }
         }
     }

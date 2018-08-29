@@ -80,3 +80,5 @@ fun NodeList.toIterable() = (0 until length).map(this::item)
 fun <T> T?.notNull(message: String = "Receiver is null"): T = this ?: error(message)
 
 fun Int.ifBetween(lo: Int, hi: Int, block: (Int) -> Unit) = this.takeIf { it in lo until hi }?.let(block)
+
+fun String.toLowerCase(case: Boolean) = if (case) this else toLowerCase()
