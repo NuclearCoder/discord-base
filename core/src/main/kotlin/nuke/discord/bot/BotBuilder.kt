@@ -87,11 +87,11 @@ class BotBuilder {
                     .header("Authorization", "Bot $token")
                     .header("User-agent", Requester.USER_AGENT)
                     .build().let { req ->
-                OkHttpClient().newCall(req).execute().use {
-                    if (!it.isSuccessful) throw IOException("Unexpected code $it")
+                        OkHttpClient().newCall(req).execute().use {
+                            if (!it.isSuccessful) throw IOException("Unexpected code $it")
 
-                    JSONObject(it.body()!!.string()).getInt("shards")
-                }
-            }
+                            JSONObject(it.body()!!.string()).getInt("shards")
+                        }
+                    }
 
 }
