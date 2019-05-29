@@ -8,11 +8,11 @@ repositories {
 
 dependencies {
     // The production code uses the SLF4J logging API at compile time
-    implementation(group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26')
-    implementation(group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3')
+    compile(group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26')
+    compile(group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3')
 
-    implementation(group: 'com.sedmelluq', name: 'lavaplayer', version: '1.3.17')
-    implementation(group: 'com.vdurmont', name: 'emoji-java', version: '4.0.0')
+    compile(group: 'com.sedmelluq', name: 'lavaplayer', version: '1.3.17')
+    compile(group: 'com.vdurmont', name: 'emoji-java', version: '4.0.0')
 
-    implementation(group: 'com.github.ThatsNoMoon', name: 'KDA', version: '9285b088204b9a6e28062532219e01f5b9d2102c')
+    compile(group: 'com.github.ThatsNoMoon', name: 'KDA', version: '9285b088204b9a6e28062532219e01f5b9d2102c')
 }
